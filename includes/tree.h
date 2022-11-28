@@ -14,5 +14,6 @@ void pre_order(struct tree *);
 void in_order(struct tree *);
 void pos_order(struct tree *);
 void remove_leaf(struct tree *tree, int value);
+int depth(struct tree *tree);
 
 #endif

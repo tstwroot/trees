@@ -16,13 +16,15 @@ main()
     printf("\n");
     pos_order(tree);
     printf("\n");
-    in_order(tree);
+    in_order(tree); 
     printf("\n");
-    remove_leaf(tree, 444);
+    printf("Tree Depth: %d\n", depth(tree));
+    remove_leaf(tree, 5); 
     pre_order(tree);
     printf("\n");
     pos_order(tree);
     printf("\n");
     in_order(tree);
     printf("\n");
+    printf("Tree Depth: %d\n", depth(tree));
 }

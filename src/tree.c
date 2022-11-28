@@ -122,6 +122,27 @@ is_empty(struct tree *_tree)
     return _tree->root == NULL;
 }
 
+int getDepth(struct leaf *leaf)
+{
+  if(leaf == NULL)
+  {
+    return -1;
+  }
+  else
+  {
+    int l = getDepth(leaf->left);
+    int r = getDepth(leaf->right);
+    if(l > r)
+    {
+      return l + 1;
+    }
+    else
+    {
+      return r + 1;
+    }
+  }
+}
+
 void
 add(struct leaf *leaf, int value)
 {
@@ -163,6 +184,7 @@ insert(struct tree *tree, int value)
         return;
     }
     add(tree->root, value);
+    tree->depth = getDepth(tree->root);
 }
 
 struct leaf *remove_aux(struct leaf *leaf, int value)
@@ -180,15 +202,32 @@ struct leaf *remove_aux(struct leaf *leaf, int value)
       {
         if(leaf->left != NULL && leaf->right != NULL)
         {
-          struct leaf *aux = leaf->left;
-          while(aux->right != NULL)
+          int r = rand() % 2;
+          if(r == 1)
           {
-            aux = aux->right;
+            struct leaf *aux = leaf->left;
+            while(aux->right != NULL)
+            {
+              aux = aux->right;
+            }
+            leaf->value = aux->value;
+            aux->value = value;
+            leaf->left = remove_aux(leaf->left, value);
+            return leaf;
           }
-          leaf->value = aux->value;
-          aux->value = value;
-          leaf->left = remove_aux(leaf->left, value);
-          return leaf;
+          else
+          {
+            struct leaf *aux = leaf->right;
+            while(aux->left != NULL)
+            {
+              aux = aux->left;
+            }
+            leaf->value = aux->value;
+            aux->value = value;
+            leaf->right = remove_aux(leaf->right, value);
+            return leaf;
+          }
+         
         }
         else
         {
@@ -229,4 +268,10 @@ void remove_leaf(struct tree *tree, int value)
     return;
   }
   remove_aux(tree->root, value);
+  tree->depth = getDepth(tree->root);
+}
+
+int depth(struct tree *tree)
+{
+  return tree->depth;
 }
