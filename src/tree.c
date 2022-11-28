@@ -165,17 +165,61 @@ insert(struct tree *tree, int value)
     add(tree->root, value);
 }
 
-void remove_aux(struct leaf *leaf, int value)
+struct leaf *remove_aux(struct leaf *leaf, int value)
 {
   if(leaf != NULL)
   {
-    remove_aux(leaf->left, value);
-    if(leaf->value > value) 
+    if(leaf->value == value) 
     {
-      free(leaf);
-
+      if(leaf->left == NULL && leaf->right == NULL) 
+      {
+        free(leaf);
+        leaf = NULL;
+      }
+      else
+      {
+        if(leaf->left != NULL && leaf->right != NULL)
+        {
+          struct leaf *aux = leaf->left;
+          while(aux->right != NULL)
+          {
+            aux = aux->right;
+          }
+          leaf->value = aux->value;
+          aux->value = value;
+          leaf->left = remove_aux(leaf->left, value);
+          return leaf;
+        }
+        else
+        {
+          struct leaf *aux;
+          if(leaf->left != NULL)
+          {
+            aux = leaf->left;
+          }
+          else
+          {
+            aux = leaf->right;
+          }
+          free(leaf);
+          return aux;
+        }
+      }
+    }
+    else
+    {
+      if(leaf->value > value)
+      {
+        leaf->left = remove_aux(leaf->left, value);
+      }
+      else
+      {
+        leaf->right = remove_aux(leaf->right, value);
+      }
+      return leaf;
     }
   }
+  return (struct leaf*)NULL;
 }
 
 void remove_leaf(struct tree *tree, int value)

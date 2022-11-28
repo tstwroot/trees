@@ -11,7 +11,14 @@ main()
     insert(tree, 100);
     insert(tree, 200);
     insert(tree, 5);
-    insert(tree, 20);
+    insert(tree, 20); 
+    pre_order(tree);
+    printf("\n");
+    pos_order(tree);
+    printf("\n");
+    in_order(tree);
+    printf("\n");
+    remove_leaf(tree, 444);
     pre_order(tree);
     printf("\n");
     pos_order(tree);
