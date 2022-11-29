@@ -1,5 +1,4 @@
 #include "../includes/tree.h"
-#include <alloca.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
